@@ -30,11 +30,10 @@ Define      Variable    Value   Description
 Sub-Functions
 ============================================================================================================================================================================*/
 
-
+// Hàm này điều khiển động cơ e1 với tham số "power" (công suất) và "direct" (hướng quay)
 
 private void single_1_e1(float power, bool direct)
 {
-    // Hàm này điều khiển động cơ e1 với tham số "power" (công suất) và "direct" (hướng quay)
 
     if (direct == 1) // Nếu hướng quay là tiến
     {
