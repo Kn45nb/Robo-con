@@ -78,71 +78,99 @@ void power_to_time_working(double power, bool direct)
 {
     
 }
-
-// Đơn động cơ
-void single_1_e1(double power, bool direct)
-{
-    if (direct)
-    {
-        in1_e1 = 0;
-        in2_e1 = power_to_time_working(power);
-    }  
-    else
-    {
-        in1_e1 = power_to_time_working(power);
-        in2_e1 = 0;
-    } 
-}
-
-void single_1_e2( float power, bool direct)
+//chen 1 thuat toan quay thuan va nghich
+void  rotate(bool direct)
 {
     if (direct)
     {
         // Backward
+        in1_e1 = 0;
+        in2_e1 = 100;
         in1_e2 = 0;
-        in2_e2 = power_to_time_working(power);
+        in2_e2 = 100;
+        in1_e3 = 0;
+        in2_e3 = 100;
+        in1_e4 = 0;
+        in2_e4 = 100;
     }
     else
     {
         // Forward
-            in1_e2 = power_to_time_working(power);
-            in2_e2 = 0;
+        in1_e1 = 100;
+        in2_e1 = 0;
+        in1_e2 = 100;
+        in2_e2 = 0;
+        in1_e3 = 100;
+        in2_e3 = 0;
+        in1_e4 = 100;
+        in2_e4 = 0;
     }
 }
 
-void single_1_e3( float power, bool direct)
+
+// Đơn động cơ
+
+void single_1_e1(double power, bool direct) // bánh phải
+{
+    if (direct)
     {
-        if (direct)
-
-        {
-            // Backward
-            in1_e3 = 0;
-            in2_e3 = power_to_time_working(power);
-        }
-        else
-        {
-            // Forward
-            in1_e3 = power_to_time_working(power);
-            in2_e3 = 0;
-        }
+        in1_e1 = 0;
+        in2_e1 = power_to_time_working(power, direct);
     }
-
-void single_1_e4( float power, bool direct)
+    else
     {
-        if (direct)
-        {
-            // Backward
-            in1_e4 = 0;
-            in2_e4 = power_to_time_working(power);
-        }
-        else
-        {
-            // Forward
-            in1_e4 = power_to_time_working(power);
-            in2_e4 = 0;
-        }
+        in1_e1 = power_to_time_working(power, direct);
+        in2_e1 = 0;
     }
+}
 
+void single_1_e2(float power, bool direct) // bánh phải
+{
+    if (direct)
+    {
+        in1_e2 = 0;
+        in2_e2 = power_to_time_working(power, direct);
+    }
+    else
+    {
+        in1_e2 = power_to_time_working(power, direct);
+        in2_e2 = 0;
+    }
+}
+
+void single_1_e3(float power, bool direct) // bánh trái
+{
+    // Invert direction for left wheel
+    direct = !direct;
+
+    if (direct)
+    {
+        in1_e3 = 0;
+        in2_e3 = power_to_time_working(power, direct);
+    }
+    else
+    {
+        in1_e3 = power_to_time_working(power, direct);
+        in2_e3 = 0;
+    }
+}
+
+void single_1_e4(float power, bool direct) // bánh trái
+{
+    // Invert direction for left wheel
+    direct = !direct;
+
+    if (direct)
+    {
+        in1_e4 = 0;
+        in2_e4 = power_to_time_working(power, direct);
+    }
+    else
+    {
+        in1_e4 = power_to_time_working(power, direct);
+        in2_e4 = 0;
+    }
+}
 
 
 // Động bộ 4 động cơ
