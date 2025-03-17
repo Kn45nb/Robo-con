@@ -84,61 +84,62 @@ void single_1_e1(double power, bool direct)
 {
     if (direct)
     {
-        in1_e1 = power_to_time_working(power);
-        in2_e1 = 0;
-    }
-    else
-    {
         in1_e1 = 0;
         in2_e1 = power_to_time_working(power);
-    }
+    }  
+    else
+    {
+        in1_e1 = power_to_time_working(power);
+        in2_e1 = 0;
+    } 
 }
 
 void single_1_e2( float power, bool direct)
 {
-    if (direct  == 1)
-    {
-    // Forward
-        in1_e2 = power_to_time_working(power);
-        in2_e2 = 0;
-    }
-    else
+    if (direct)
     {
         // Backward
         in1_e2 = 0;
         in2_e2 = power_to_time_working(power);
     }
+    else
+    {
+        // Forward
+            in1_e2 = power_to_time_working(power);
+            in2_e2 = 0;
+    }
 }
 
 void single_1_e3( float power, bool direct)
     {
-        if (direct == 1)
-        {
-            // Forward
-            in1_e3 = power_to_time_working(power);
-            in2_e3 = 0;
-        }
-        else
+        if (direct)
+
         {
             // Backward
             in1_e3 = 0;
             in2_e3 = power_to_time_working(power);
         }
+        else
+        {
+            // Forward
+            in1_e3 = power_to_time_working(power);
+            in2_e3 = 0;
+        }
     }
 
 void single_1_e4( float power, bool direct)
     {
-        if (direct == 1)
-        {
-            // Forward
-            in1_e4 = power_to_time_working(power);
-            in2_e4 = 0;
-        }
-        else
+        if (direct)
         {
             // Backward
             in1_e4 = 0;
             in2_e4 = power_to_time_working(power);
+        }
+        else
+        {
+            // Forward
+            in1_e4 = power_to_time_working(power);
+            in2_e4 = 0;
         }
     }
 
