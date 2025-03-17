@@ -129,37 +129,166 @@ private void single_1_e3( float power, bool direct)
     }
 
 // Động bộ 4 động cơ
-public void sync_4()
+public void sync_4(float power, bool direct, bool isRight)
 {
-    single_1_e1();
+    if (isRight == 1)
+    {
+        if (direct == 1)
+        {
+            // Tiến về phía trước
+            single_1_e1(power, direct);
+            single_1_e2(power, direct);
+            single_1_e3(power, direct);
+            single_1_e4(power, direct);
+        }
+        else
+        {
+            // Lùi về phía sau
+            single_1_e1(power, direct);
+            single_1_e2(power, direct);
+            single_1_e3(power, direct);
+            single_1_e4(power, direct);
+        }
+    }
+    else
+    {
+        if (direct == 1)
+        {
+            // Tiến về phía trước
+            single_1_e1(power, direct);
+            single_1_e2(power, direct);
+            single_1_e3(power, direct);
+            single_1_e4(power, direct);
+        }
+        else
+        {
+            // Lùi về phía sau
+            single_1_e1(power, direct);
+            single_1_e2(power, direct);
+            single_1_e3(power, direct);
+            single_1_e4(power, direct);
+        }
+    }
+}
+
+// Động bộ dọc 2 động cơ bên phải
+public void sync_2_Vertical_R(float power, bool direct)
+{
+    if (direct == 1)
+    {
+        // Tiến về phía trước
+        single_1_e1(power, direct);
+        single_1_e2(power, direct);
+    }
+    else
+    {
+        // Lùi về phía sau
+        single_1_e1(power, direct);
+        single_1_e2(power, direct);
+    }
+}
+{
     return 0;
 }
 
-// Động bộ dọc 2 động cơ
-public void sync_2_Vertical_R()
+// Động bộ dọc 2 động cơ bên trái
+public void sync_2_Vertical_L(float power, bool direct)
 {
-    return 0;
+    if (direct == 1)
+    {
+        // Tiến về phía trước
+        single_1_e3(power, direct);
+        single_1_e4(power, direct);
+    }
+    else
+    {
+        // Lùi về phía sau
+        single_1_e3(power, direct);
+        single_1_e4(power, direct);
+    }
 }
-public void sync_2_Vertical_L()
 {
     return 0;
 }
 
-// Động bộ ngang 2 động cơ
-public void sync_2_Horizontal_R()
+// Động bộ ngang 2 động cơ bên phải
+public void sync_2_Horizontal_R(float power, bool direct)
 {
-    return 0;
+    if (direct == 1)
+    {
+        // Tiến về phía trước
+        single_1_e1(power, direct);
+        single_1_e4(power, direct);
+    }
+    else
+    {
+        // Lùi về phía sau
+        single_1_e1(power, direct);
+        single_1_e4(power, direct);
+    }
 }
-public void sync_2_Horizontal_L()
 {
     return 0;
 }
 
-// Nghịch đồng bộ 2 - 2 động cơ (Xoay)
-public void circular()
+// Động bộ ngang 2 động cơ bên trái
+public void sync_2_Horizontal_L(float power, bool direct)
+{
+    if (direct == 1)
+    {
+        // Tiến về phía trước
+        single_1_e2(power, direct);
+        single_1_e3(power, direct);
+    }
+    else
+    {
+        // Lùi về phía sau
+        single_1_e2(power, direct);
+        single_1_e3(power, direct);
+    }
+}
 {
     return 0;
 }
+
+// Nghịch đồng bộ 2 - 2 động cơ (Xoay tròn)
+public void circular(float power, bool direct, bool isRight)
+{
+    if (isRight == 1)
+    {
+        if (direct == 1)
+        {
+            // Tiến về phía trước
+            single_1_e1(power, direct);
+            single_1_e4(power, direct);
+        }
+        else
+        {
+            // Lùi về phía sau
+            single_1_e1(power, direct);
+            single_1_e4(power, direct);
+        }
+    }
+    else
+    {
+        if (direct == 1)
+        {
+            // Tiến về phía trước
+            single_1_e2(power, direct);
+            single_1_e3(power, direct);
+        }
+        else
+        {
+            // Lùi về phía sau
+            single_1_e2(power, direct);
+            single_1_e3(power, direct);
+        }
+    }
+}
+{
+    return 0;
+}
+
 
 // Giao thức đặc biệt không qua các hàm xung
 private void boot()
