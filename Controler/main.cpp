@@ -129,52 +129,30 @@ private void single_1_e3( float power, bool direct)
     }
 
 // Động bộ 4 động cơ
-public void sync_4(float power, bool direct, bool isRight)
+public void sync_4(int power, bool direct)
 {
-    if (isRight == 1)
+    if (direct)
     {
-        if (direct == 1)
-        {
-            // Tiến về phía trước
-            single_1_e1(power, direct);
-            single_1_e2(power, direct);
-            single_1_e3(power, direct);
-            single_1_e4(power, direct);
-        }
-        else
-        {
-            // Lùi về phía sau
-            single_1_e1(power, direct);
-            single_1_e2(power, direct);
-            single_1_e3(power, direct);
-            single_1_e4(power, direct);
-        }
+        // Tiến về phía trước
+        single_1_e1(power, direct);
+        single_1_e2(power, direct);
+        single_1_e3(power, direct);
+        single_1_e4(power, direct);
     }
     else
     {
-        if (direct == 1)
-        {
-            // Tiến về phía trước
-            single_1_e1(power, direct);
-            single_1_e2(power, direct);
-            single_1_e3(power, direct);
-            single_1_e4(power, direct);
-        }
-        else
-        {
-            // Lùi về phía sau
-            single_1_e1(power, direct);
-            single_1_e2(power, direct);
-            single_1_e3(power, direct);
-            single_1_e4(power, direct);
-        }
+        // Lùi về phía sau
+        single_1_e1(power, direct);
+        single_1_e2(power, direct);
+        single_1_e3(power, direct);
+        single_1_e4(power, direct);
     }
 }
 
 // Động bộ dọc 2 động cơ bên phải
-public void sync_2_Vertical_R(float power, bool direct)
+public void sync_2_Vertical_R(bool direct, int power)
 {
-    if (direct == 1)
+    if (direct)
     {
         // Tiến về phía trước
         single_1_e1(power, direct);
@@ -186,15 +164,12 @@ public void sync_2_Vertical_R(float power, bool direct)
         single_1_e1(power, direct);
         single_1_e2(power, direct);
     }
-}
-{
-    return 0;
 }
 
 // Động bộ dọc 2 động cơ bên trái
-public void sync_2_Vertical_L(float power, bool direct)
+public void sync_2_Vertical_L(bool direct, int power )
 {
-    if (direct == 1)
+    if (direct)
     {
         // Tiến về phía trước
         single_1_e3(power, direct);
@@ -206,89 +181,41 @@ public void sync_2_Vertical_L(float power, bool direct)
         single_1_e3(power, direct);
         single_1_e4(power, direct);
     }
-}
-{
-    return 0;
 }
 
 // Động bộ ngang 2 động cơ bên phải
-public void sync_2_Horizontal_R(float power, bool direct)
-{
-    if (direct == 1)
-    {
-        // Tiến về phía trước
-        single_1_e1(power, direct);
-        single_1_e4(power, direct);
-    }
-    else
-    {
-        // Lùi về phía sau
-        single_1_e1(power, direct);
-        single_1_e4(power, direct);
-    }
-}
+public void sync_2_Horizontal_R()
 {
     return 0;
 }
 
 // Động bộ ngang 2 động cơ bên trái
-public void sync_2_Horizontal_L(float power, bool direct)
-{
-    if (direct == 1)
-    {
-        // Tiến về phía trước
-        single_1_e2(power, direct);
-        single_1_e3(power, direct);
-    }
-    else
-    {
-        // Lùi về phía sau
-        single_1_e2(power, direct);
-        single_1_e3(power, direct);
-    }
-}
+public void sync_2_Horizontal_L()
+
 {
     return 0;
 }
 
 // Nghịch đồng bộ 2 - 2 động cơ (Xoay tròn)
-public void circular(float power, bool direct, bool isRight)
+public void circular(bool isRight, int power)
 {
-    if (isRight == 1)
+    if (isRight)
     {
-        if (direct == 1)
-        {
-            // Tiến về phía trước
-            single_1_e1(power, direct);
-            single_1_e4(power, direct);
-        }
-        else
-        {
-            // Lùi về phía sau
-            single_1_e1(power, direct);
-            single_1_e4(power, direct);
-        }
+        // Quay về phía bên phải
+        single_1_e1(power, 1);
+        single_1_e2(power, 0);
+        single_1_e3(power, 1);
+        single_1_e4(power, 0);
     }
     else
     {
-        if (direct == 1)
-        {
-            // Tiến về phía trước
-            single_1_e2(power, direct);
-            single_1_e3(power, direct);
-        }
-        else
-        {
-            // Lùi về phía sau
-            single_1_e2(power, direct);
-            single_1_e3(power, direct);
-        }
+        // Quay về phía bên trái
+        single_1_e1(power, 0);
+        single_1_e2(power, 1);
+        single_1_e3(power, 0);
+        single_1_e4(power, 1);
     }
 }
-{
-    return 0;
-}
-
 
 // Giao thức đặc biệt không qua các hàm xung
 private void boot()
