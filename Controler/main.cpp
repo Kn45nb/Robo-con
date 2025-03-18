@@ -117,24 +117,51 @@ void check_Engine()
     //@Nghĩa: Viết thêm case dựa vào Description của biến STU. Và Dev phần gọi hàm bên trong các Case đó luôn. Hàm này sẽ được chạy liên tục vậy nên ô thêm lệnh delay (1000 - power) như lần trước.
     switch (STU)
     {
+    case 0:
+        // không có trạng thái nào được chọn
+        sleep_ms(1000 - (uint32_t)(power * 10));
+        break;
     case 1:
-        /* code */ 
+        // Đi (Go) - cho xe chạy thẳng hoac lùi
+        sync_4(power, direct);
+        sleep_ms(1000 - (uint32_t)(power * 10));
         break;
     case 2:
-        /* code */
+        // Rẽ (4 bánh) rẽ bằng cách sử dụng 4 bánh xe 
+        circular(power, isRight);
+        sleep_ms(1000 - (uint32_t)(power * 10));
         break;
     case 3:
-        /* code */
+        // Boot - khởi động lại hệ thống
+        boot();
+        sleep_ms(1000 - (uint32_t)(power * 10));
         break;
     case 4:
-        /* code */
+        // Parking - 
+        parking();
+        sleep_ms(1000 - (uint32_t)(power * 10));
         break;
-
+    case 5:
+        // UnParking - 
+        unParking();
+        sleep_ms(1000 - (uint32_t)(power * 10));
+        break;
+    case 6:
+        // Pause - dừng xe
+        pause();
+        sleep_ms(1000 - (uint32_t)(power * 10));
+        break;
+    case 7:
+        // Rẽ (2 bánh) 
+        circular(power, isRight);
+        sleep_ms(1000 - (uint32_t)(power * 10));
+        break;
     default:
+        // không có trạng thái nào được chọn
+        sleep_ms(1000 - (uint32_t)(power * 10));
         break;
     }
 }
-
 
 // Hàm tạo xung
 void wave(double power)
