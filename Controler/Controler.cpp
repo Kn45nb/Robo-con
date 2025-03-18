@@ -76,93 +76,8 @@ volatile    int8_t      in2_e4          =0;        // Trạng thái động cơ 
 
 
 /*============================================================================================================================================================================
-Main Function
-============================================================================================================================================================================*/
-int main()
-{
-    
-    
-}
-
-
-
-/*============================================================================================================================================================================
 Sub-Functions
 ============================================================================================================================================================================*/
-// Check COM
-void check_COM()
-{
-    if (uart_is_readable(uart0))
-    {
-        switch (uart_getc(uart0))
-        {
-            case 0x01:
-                STU = 1;
-                break;
-            case 0x02:
-                STU = 2;
-                break;
-            case 0x03:
-                STU = 3;
-                break;
-            default:
-                STU = 0;
-                break;
-        }
-    }
-}
-
-void check_Engine()
-{
-    //@Nghĩa: Viết thêm case dựa vào Description của biến STU. Và Dev phần gọi hàm bên trong các Case đó luôn. Hàm này sẽ được chạy liên tục vậy nên ô thêm lệnh delay (1000 - power) như lần trước.
-    switch (STU)
-    {
-    case 0:
-        // không có trạng thái nào được chọn
-        sleep_ms(1000 - (uint32_t)(power * 10));
-        break;
-    case 1:
-        // Đi (Go) - cho xe chạy thẳng hoac lùi
-        sync_4(power, direct);
-        sleep_ms(1000 - (uint32_t)(power * 10));
-        break;
-    case 2:
-        // Rẽ (4 bánh) rẽ bằng cách sử dụng 4 bánh xe 
-        circular(power, isRight);
-        sleep_ms(1000 - (uint32_t)(power * 10));
-        break;
-    case 3:
-        // Boot - khởi động lại hệ thống
-        boot();
-        sleep_ms(1000 - (uint32_t)(power * 10));
-        break;
-    case 4:
-        // Parking - 
-        parking();
-        sleep_ms(1000 - (uint32_t)(power * 10));
-        break;
-    case 5:
-        // UnParking - 
-        unParking();
-        sleep_ms(1000 - (uint32_t)(power * 10));
-        break;
-    case 6:
-        // Pause - dừng xe
-        pause();
-        sleep_ms(1000 - (uint32_t)(power * 10));
-        break;
-    case 7:
-        // Rẽ (2 bánh) 
-        circular(power, isRight);
-        sleep_ms(1000 - (uint32_t)(power * 10));
-        break;
-    default:
-        // không có trạng thái nào được chọn
-        sleep_ms(1000 - (uint32_t)(power * 10));
-        break;
-    }
-}
-
 // Hàm tạo xung
 void wave(double power)
 {
@@ -190,7 +105,6 @@ void wave(double power)
     out1_e4 = 0;
     out2_e4 = 0;
 }
-
 
 
 // Đơn động cơ
@@ -282,3 +196,73 @@ void pause()
 }
 
 
+// Check COM
+void check_COM()
+{
+    if (uart_is_readable(uart0))
+    {
+        switch (uart_getc(uart0))
+        {
+            case 0x01:
+                STU = 1;
+                break;
+            case 0x02:
+                STU = 2;
+                break;
+            case 0x03:
+                STU = 3;
+                break;
+            default:
+                STU = 0;
+                break;
+        }
+    }
+}
+
+// Check Engine for realtime
+void check_Engine()
+{
+    //@Nghĩa: Viết thêm case dựa vào Description của biến STU. Và Dev phần gọi hàm bên trong các Case đó luôn. Hàm này sẽ được chạy liên tục vậy nên ô thêm lệnh delay (1000 - power) như lần trước.
+    switch (STU)
+    {
+    case 0:
+        
+        break;
+    case 1:
+        sync_4(power, direct);
+        break;
+    case 2:
+        circular(power, isRight);
+        break;
+    case 3:
+        boot();
+        break;
+    case 4:
+        parking();
+        break;
+    case 5:
+        unParking();
+        break;
+    case 6:
+        pause();
+        break;
+    case 7:
+        circular(power, isRight);   // Sai
+        break;
+    default:
+        break;
+    }
+    sleep_ms(1000 - (uint32_t)(power * 10));
+    // busy_wait_ms(1000 - (uint32_t)(power * 10));
+}
+
+
+
+/*============================================================================================================================================================================
+Main Function
+============================================================================================================================================================================*/
+int main()
+{
+    
+    
+}
