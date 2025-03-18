@@ -18,8 +18,8 @@ Includes    Libaries
 ============================================================================================================================================================================*/
 #include    <stdio.h>
 #include    "pico/stdlib.h"
-// #include    "hardware/pio.h"
-// #include    "pico/cyw43_arch.h"
+#include    "hardware/pio.h"
+#include    "pico/cyw43_arch.h"
 #include    "hardware/uart.h"
 #include    "pico/multicore.h"
 
@@ -174,7 +174,7 @@ void sync_4(double power, bool direct)
 }
 
 
-// Giao thức đặc biệt không qua các hàm xung --------------------------------------------------------------------------------------------------------------------------------
+// Giao thức đặc biệt không qua các hàm xung
 void boot()
 {
 
@@ -222,7 +222,6 @@ void check_COM()
 // Check Engine for realtime
 void check_Engine()
 {
-    //@Nghĩa: Viết thêm case dựa vào Description của biến STU. Và Dev phần gọi hàm bên trong các Case đó luôn. Hàm này sẽ được chạy liên tục vậy nên ô thêm lệnh delay (1000 - power) như lần trước.
     switch (STU)
     {
     case 0:
