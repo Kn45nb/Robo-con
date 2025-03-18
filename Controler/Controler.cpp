@@ -18,8 +18,8 @@ Includes    Libaries
 ============================================================================================================================================================================*/
 #include    <stdio.h>
 #include    "pico/stdlib.h"
-#include    "hardware/pio.h"
-#include    "pico/cyw43_arch.h"
+// #include    "hardware/pio.h"
+// #include    "pico/cyw43_arch.h"
 #include    "hardware/uart.h"
 #include    "pico/multicore.h"
 
@@ -264,6 +264,6 @@ Main Function
 int main()
 {
     
-    
+
     
 }
