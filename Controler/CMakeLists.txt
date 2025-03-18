@@ -40,9 +40,6 @@ add_executable(Controler Controler.cpp )
 pico_set_program_name(Controler "Controler")
 pico_set_program_version(Controler "0.1")
 
-# Generate PIO header
-pico_generate_pio_header(Controler ${CMAKE_CURRENT_LIST_DIR}/blink.pio)
-
 # Modify the below lines to enable/disable output over UART/USB
 pico_enable_stdio_uart(Controler 0)
 pico_enable_stdio_usb(Controler 0)
@@ -58,9 +55,7 @@ target_include_directories(Controler PRIVATE
 
 # Add any user requested libraries
 target_link_libraries(Controler 
-        hardware_i2c
-        hardware_pio
-        pico_cyw43_arch_none
+        
         )
 
 pico_add_extra_outputs(Controler)
