@@ -35,7 +35,7 @@ Define      Variable        Value       Description
 // Độ chính xác luồng Engine
 #define     UNIT            0           // 0 - ms | 1 - us
 #define     ACCURACY        0           // 0 - busy_wait_ | 1 - sleep_
-
+#define     FREQUENCIES     50          // Tần số giao động (Hz)
 
 
 /*============================================================================================================================================================================
@@ -44,12 +44,12 @@ Biến cơ bản
 Type        Variable        Value       Description
 ============================================================================================================================================================================*/
 // Giả dữ liệu truyền vào
-double      power           =50;        // Công xuất động cơ (%) | 0-100
+uint8_t     power           =50;        // Công xuất động cơ (%) | 0-100
 bool        direct          =1;         // Hướng đi: 1 - Tiến | 0 - Lùi
 bool        isRight         =1;         // Hướng quay: 1 - Phải | 0 - Trái
 uint8_t     STU             =0;         // Trạng thái đặc biệt: 0 - Null | 1 - Đi | 2 - Rẽ (4 bánh) | 3 - Boot | 4 - Parking | 5 - UnParking | 6 - Pause | 7 - Rẽ (2 bánh).
 
-// Giả dữ liệu truyền ra
+// Giả dữ liệu truyền ra (@Kn45nb)
 bool        out1_e1         =0;         // Động cơ 1 cổng 1
 bool        out2_e1         =0;         // Động cơ 1 cổng 2
 bool        out1_e2         =0;         // Động cơ 2 cổng 1
@@ -82,11 +82,8 @@ volatile    int8_t      in2_e4          =0;        // Trạng thái động cơ 
 Sub-Functions
 ============================================================================================================================================================================*/
 // Hàm tạo xung
-void wave(double power)
+void wave(uint8_t power)
 {
-    // Tần số giao động
-    const uint32_t frequency = 50;
-
     in1_e1 ? out1_e1 = 1 : out1_e1 = 0;
     in2_e1 ? out2_e1 = 1 : out2_e1 = 0;
     in1_e2 ? out1_e2 = 1 : out1_e2 = 0;
@@ -97,10 +94,9 @@ void wave(double power)
     in2_e4 ? out2_e4 = 1 : out2_e4 = 0;
 
     UNIT ?
-    (ACCURACY ? sleep_us((uint32_t)(power * 10000 / frequency)) : busy_wait_us((uint32_t)(power * 10000 / frequency)))
+    (ACCURACY ? sleep_us(power * 10000 / FREQUENCIES) : busy_wait_us(power * 10000 / FREQUENCIES))
     :
-    (ACCURACY ? sleep_ms((uint32_t)(power * 10000 / frequency)) : busy_wait_ms((uint32_t)(power * 10000 / frequency)));
-    // (uint32_t)((power * 10000) / frequency))
+    (ACCURACY ? sleep_ms(power * 10 / FREQUENCIES) :    busy_wait_ms(power * 10 / FREQUENCIES));
 
     out1_e1 = 0;
     out2_e1 = 0;
@@ -115,26 +111,26 @@ void wave(double power)
 
 // Đơn động cơ
 // Bên phải
-void single_1_e1(double power, bool direct)
+void single_1_e1(uint8_t power, bool direct)
 {
     in1_e1 = direct ? 0 : power;
     in2_e1 = direct ? power : 0;
 }
 
-void single_1_e2(double power, bool direct)
+void single_1_e2(uint8_t power, bool direct)
 {
     in1_e2 = direct ? 0 : power;
     in2_e2 = direct ? power : 0;
 }
 
 // Bên trái
-void single_1_e3(double power, bool direct)
+void single_1_e3(uint8_t power, bool direct)
 {
     in1_e3 = direct ? power : 0;
     in2_e3 = direct ? 0 : power;
 }
 
-void single_1_e4(double power, bool direct)
+void single_1_e4(uint8_t power, bool direct)
 {
     in1_e4 = direct ? power : 0;
     in2_e4 = direct ? 0 : power;
@@ -142,13 +138,13 @@ void single_1_e4(double power, bool direct)
 
 
 // Động bộ dọc 2 động cơ
-void sync_2_Vertical_R(double power, bool direct)
+void sync_2_Vertical_R(uint8_t power, bool direct)
 {
     single_1_e1(power, direct);
     single_1_e2(power, direct);
 }
 
-void sync_2_Vertical_L(double power, bool direct)
+void sync_2_Vertical_L(uint8_t power, bool direct)
 {
     single_1_e3(power, direct);
     single_1_e4(power, direct);
@@ -166,14 +162,14 @@ void sync_2_Horizontal_L()
 
 
 // Nghịch đồng bộ 2 - 2 động cơ (Xoay)
-void circular(double power, bool isRight)
+void circular(uint8_t power, bool isRight)
 {
     sync_2_Vertical_R(power, isRight ? 1 : 0);
     sync_2_Vertical_L(power, isRight ? 0 : 1);
 }
 
 // Đồng bộ 4
-void sync_4(double power, bool direct)
+void sync_4(uint8_t power, bool direct)
 {
     sync_2_Vertical_R(power, direct);
     sync_2_Vertical_L(power, direct);
@@ -231,7 +227,6 @@ void check_Engine()
     switch (STU)
     {
     case 0:
-            
         break;
     case 1:
         sync_4(power, direct);
@@ -252,13 +247,15 @@ void check_Engine()
         pause();
         break;
     case 7:
-        circular(power, isRight);   // Sai
+        // @Kn45nb
         break;
     default:
         break;
     }
-    sleep_ms(1000 - (uint32_t)(power * 10));
-    // busy_wait_ms(1000 - (uint32_t)(power * 10));
+    UNIT ?
+    (ACCURACY ? sleep_us((100 - power) * 10000 / FREQUENCIES) : busy_wait_us((100 - power) * 10000 / FREQUENCIES))
+    :
+    (ACCURACY ? sleep_ms((100 - power) * 10 / FREQUENCIES) :    busy_wait_ms((100 - power) * 10 / FREQUENCIES));
 }
 
 
