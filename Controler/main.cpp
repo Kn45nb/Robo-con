@@ -18,9 +18,10 @@ Includes    Libaries
 ============================================================================================================================================================================*/
 #include    <stdio.h>
 #include    "pico/stdlib.h"
+#include    "pico/multicore.h"
 #include    "hardware/pio.h"
 #include    "hardware/uart.h"
-#include    "pico/multicore.h"
+
 
 
 
