@@ -91,7 +91,7 @@ Sub-Functions
 // Hàm tạo xung
 void wave(uint8_t power)
 {
-    // @Kn45nb
+    // @Kn45nb, xài: add_repeating_timer_ms() và cancel_repeating_timer()
     in1_e1 ? out1_e1 = 1 : out1_e1 = 0;
     in2_e1 ? out2_e1 = 1 : out2_e1 = 0;
     in1_e2 ? out1_e2 = 1 : out1_e2 = 0;
@@ -255,6 +255,7 @@ void check_Engine()
             break;
         case 2:
             circular(power, isRight);
+            wave(power);    // @Kn45nb
             break;
         case 3:
             boot();
