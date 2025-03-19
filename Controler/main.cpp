@@ -30,8 +30,8 @@ Define      Variable        Value       Description
 ============================================================================================================================================================================*/
 // cổng UART0
 #define     UART_ID         uart0       // Chọn UART0
-#define     TX_PIN          0           // GPIO 0 (TX)
-#define     RX_PIN          1           // GPIO 1 (RX)
+#define     TX_PIN          0           // GP_0 (TX)
+#define     RX_PIN          1           // GP_1 (RX)
 #define     BAUD_RATE       115200      // Tốc độ Baud (tùy chỉnh theo module)
 #define     BUFFER_SIZE     8           // Kích thước bộ đệm (tùy chỉnh theo ứng dụng)
 
@@ -39,6 +39,17 @@ Define      Variable        Value       Description
 #define     UNIT            0           // 0 - ms | 1 - us
 #define     ACCURACY        0           // 0 - busy_wait_ | 1 - sleep_
 #define     FREQUENCIES     50          // Tần số giao động (Hz)
+
+// Cổng GPIO
+#define     GPIO_0          2           // GP_2
+#define     GPIO_1          3           // GP_3
+#define     GPIO_2          4           // GP_4
+#define     GPIO_3          5           // GP_5
+#define     GPIO_4          6           // GP_6
+#define     GPIO_5          7           // GP_7
+#define     GPIO_6          8           // GP_8
+#define     GPIO_7          9           // GP_9
+
 
 
 /*============================================================================================================================================================================
@@ -208,21 +219,21 @@ void pause()
 
 
 // connect & Check COM
-void connect_COM()
+void config_COM()
 {
     uart_init(UART_ID, BAUD_RATE);
     gpio_set_function(TX_PIN, GPIO_FUNC_UART);
     gpio_set_function(RX_PIN, GPIO_FUNC_UART);
 }
 
-void get_COM(uint8_t* t_temp, size_t length)
+void get_COM(uint8_t* rx_temp, size_t length)
 {
     size_t i = 0;
     while (i < length)
     {
         if (uart_is_readable(UART_ID))
         {
-            t_temp[i++] = uart_getc(UART_ID);
+            rx_temp[i++] = uart_getc(UART_ID);
         }
     }
 }
@@ -234,13 +245,41 @@ void check_COM()
         get_COM(rx_temp, BUFFER_SIZE);
 
         STU = rx_temp[0] & 0x0F;
-        direct = (rx_temp[1] & 0x01) != 0;
-        isRight = (rx_temp[2] & 0x01) != 0;
+        direct = rx_temp[1] & 0x01;
+        isRight = rx_temp[2] & 0x01;
         power = rx_temp[3];
     }
 }
 
-// Check Engine for realtime
+// Config and check Engine
+void config_gpio()
+{
+    gpio_init(GPIO_0);
+    gpio_set_dir(GPIO_0, GPIO_OUT);
+
+    gpio_init(GPIO_1);
+    gpio_set_dir(GPIO_1, GPIO_OUT);
+
+    gpio_init(GPIO_2);
+    gpio_set_dir(GPIO_2, GPIO_OUT);
+
+    gpio_init(GPIO_3);
+    gpio_set_dir(GPIO_3, GPIO_OUT);
+
+    gpio_init(GPIO_4);
+    gpio_set_dir(GPIO_4, GPIO_OUT);
+
+    gpio_init(GPIO_5);
+    gpio_set_dir(GPIO_5, GPIO_OUT);
+
+    gpio_init(GPIO_6);
+    gpio_set_dir(GPIO_6, GPIO_OUT);
+
+    gpio_init(GPIO_7);
+    gpio_set_dir(GPIO_7, GPIO_OUT);
+}
+
+
 void check_Engine()
 {
     while (true)
@@ -293,7 +332,9 @@ int main()
 {
     stdio_init_all();
 
-    connect_COM();
+    config_gpio();
+
+    config_COM();
 
     multicore_launch_core1(check_Engine);
 
