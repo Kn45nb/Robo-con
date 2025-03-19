@@ -32,7 +32,7 @@ Define      Variable        Value       Description
 #define     TX_PIN          0           // GPIO 0 (TX)
 #define     RX_PIN          1           // GPIO 1 (RX)
 #define     BAUD_RATE       115200      // Tốc độ Baud (tùy chỉnh theo module)
-#define     BUFFER_SIZE     256         // Kích thước bộ đệm (tùy chỉnh theo ứng dụng)
+#define     BUFFER_SIZE     8           // Kích thước bộ đệm (tùy chỉnh theo ứng dụng)
 
 // Độ chính xác luồng Engine
 #define     UNIT            0           // 0 - ms | 1 - us
@@ -43,13 +43,14 @@ Define      Variable        Value       Description
 /*============================================================================================================================================================================
 Biến cơ bản
 
-Type        Variable        Value       Description
+Type        Variable            Value       Description
 ============================================================================================================================================================================*/
 // Giả dữ liệu truyền vào
-uint8_t     power           =50;        // Công xuất động cơ (%) | 0-100
-bool        direct          =1;         // Hướng đi: 1 - Tiến | 0 - Lùi
-bool        isRight         =1;         // Hướng quay: 1 - Phải | 0 - Trái
-uint8_t     STU             =0;         // Trạng thái đặc biệt: 0 - Null | 1 - Đi | 2 - Rẽ (4 bánh) | 3 - Boot | 4 - Parking | 5 - UnParking | 6 - Pause | 7 - Rẽ (2 bánh).
+uint8_t     power               =50;        // Công xuất động cơ (%) | 0-100
+bool        direct              =1;         // Hướng đi: 1 - Tiến | 0 - Lùi
+bool        isRight             =1;         // Hướng quay: 1 - Phải | 0 - Trái
+uint8_t     STU                 =0;         // Trạng thái đặc biệt: 0 - Null | 1 - Đi | 2 - Rẽ (4 bánh) | 3 - Boot | 4 - Parking | 5 - UnParking | 6 - Pause | 7 - Rẽ (2 bánh).
+uint8_t     rx_temp[BUFFER_SIZE];           // Bộ đệm truyền vào (@Kn45nb)
 
 // Giả dữ liệu truyền ra (@Kn45nb)
 bool        out1_e1         =0;         // Động cơ 1 cổng 1
@@ -200,26 +201,36 @@ void pause()
 }
 
 
-// Check COM
+// connect & Check COM
+void connect_COM()
+{
+    uart_init(UART_ID, BAUD_RATE);
+    gpio_set_function(TX_PIN, GPIO_FUNC_UART);
+    gpio_set_function(RX_PIN, GPIO_FUNC_UART);
+}
+
+void get_COM(uint8_t* t_temp, size_t length)
+{
+    size_t i = 0;
+    while (i < length)
+    {
+        if (uart_is_readable(UART_ID))
+        {
+            t_temp[i++] = uart_getc(UART_ID);
+        }
+    }
+}
+
 void check_COM()
 {
     while (true)
     {
-        switch (uart_getc(uart0))
-        {
-            case 0x01:
-                STU = 1;
-                break;
-            case 0x02:
-                STU = 2;
-                break;
-            case 0x03:
-                STU = 3;
-                break;
-            default:
-                STU = 0;
-                break;
-        }
+        get_COM(rx_temp, BUFFER_SIZE);
+
+        STU = rx_temp[0] & 0x0F;
+        direct = (rx_temp[1] & 0x01) != 0;
+        isRight = (rx_temp[2] & 0x01) != 0;
+        power = rx_temp[3];
     }
 }
 
@@ -271,6 +282,8 @@ Main Function
 int main()
 {
     stdio_init_all();
+
+    connect_COM();
 
     multicore_launch_core1(check_Engine);
 
