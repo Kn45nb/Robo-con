@@ -27,10 +27,12 @@ Includes    Libaries
 /*============================================================================================================================================================================
 Define      Variable        Value       Description
 ============================================================================================================================================================================*/
+// cổng UART0
 #define     UART_ID         uart0       // Chọn UART0
 #define     TX_PIN          0           // GPIO 0 (TX)
 #define     RX_PIN          1           // GPIO 1 (RX)
 #define     BAUD_RATE       115200      // Tốc độ Baud (tùy chỉnh theo module)
+#define     BUFFER_SIZE     256         // Kích thước bộ đệm (tùy chỉnh theo ứng dụng)
 
 // Độ chính xác luồng Engine
 #define     UNIT            0           // 0 - ms | 1 - us
@@ -201,7 +203,7 @@ void pause()
 // Check COM
 void check_COM()
 {
-    if (uart_is_readable(uart0))
+    while (true)
     {
         switch (uart_getc(uart0))
         {
@@ -224,38 +226,41 @@ void check_COM()
 // Check Engine for realtime
 void check_Engine()
 {
-    switch (STU)
+    while (true)
     {
-    case 0:
-        break;
-    case 1:
-        sync_4(power, direct);
-        break;
-    case 2:
-        circular(power, isRight);
-        break;
-    case 3:
-        boot();
-        break;
-    case 4:
-        parking();
-        break;
-    case 5:
-        unParking();
-        break;
-    case 6:
-        pause();
-        break;
-    case 7:
-        // @Kn45nb
-        break;
-    default:
-        break;
-    }
-    UNIT ?
-    (ACCURACY ? sleep_us((100 - power) * 10000 / FREQUENCIES) : busy_wait_us((100 - power) * 10000 / FREQUENCIES))
-    :
-    (ACCURACY ? sleep_ms((100 - power) * 10 / FREQUENCIES) :    busy_wait_ms((100 - power) * 10 / FREQUENCIES));
+        switch (STU)
+        {
+        case 0:
+            break;
+        case 1:
+            sync_4(power, direct);
+            break;
+        case 2:
+            circular(power, isRight);
+            break;
+        case 3:
+            boot();
+            break;
+        case 4:
+            parking();
+            break;
+        case 5:
+            unParking();
+            break;
+        case 6:
+            pause();
+            break;
+        case 7:
+            // @Kn45nb
+            break;
+        default:
+            break;
+        }
+        UNIT ?
+        (ACCURACY ? sleep_us((100 - power) * 10000 / FREQUENCIES) : busy_wait_us((100 - power) * 10000 / FREQUENCIES))
+        :
+        (ACCURACY ? sleep_ms((100 - power) * 10 / FREQUENCIES) :    busy_wait_ms((100 - power) * 10 / FREQUENCIES));
+    }   
 }
 
 
@@ -265,7 +270,9 @@ Main Function
 ============================================================================================================================================================================*/
 int main()
 {
-    
+    stdio_init_all();
 
-    
+    multicore_launch_core1(check_Engine);
+
+    check_COM();
 }
