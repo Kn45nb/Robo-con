@@ -32,6 +32,10 @@ Define      Variable        Value       Description
 #define     RX_PIN          1           // GPIO 1 (RX)
 #define     BAUD_RATE       115200      // Tốc độ Baud (tùy chỉnh theo module)
 
+// Độ chính xác luồng Engine
+#define     UNIT            0           // 0 - ms | 1 - us
+#define     ACCURACY        0           // 0 - busy_wait_ | 1 - sleep_
+
 
 
 /*============================================================================================================================================================================
@@ -92,8 +96,11 @@ void wave(double power)
     in1_e4 ? out1_e4 = 1 : out1_e4 = 0;
     in2_e4 ? out2_e4 = 1 : out2_e4 = 0;
 
-    sleep_us((uint32_t)((power * 10000) / frequency));
-    // busy_wait_us_32((uint32_t)((power * 10000) / frequency));
+    UNIT ?
+    (ACCURACY ? sleep_us((uint32_t)(power * 10000 / frequency)) : busy_wait_us((uint32_t)(power * 10000 / frequency)))
+    :
+    (ACCURACY ? sleep_ms((uint32_t)(power * 10000 / frequency)) : busy_wait_ms((uint32_t)(power * 10000 / frequency)));
+    // (uint32_t)((power * 10000) / frequency))
 
     out1_e1 = 0;
     out2_e1 = 0;
