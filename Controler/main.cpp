@@ -47,10 +47,6 @@ Biến cơ bản
 Type        Variable            Value       Description
 ============================================================================================================================================================================*/
 // Giả dữ liệu truyền vào
-uint8_t     power               =50;        // Công xuất động cơ (%) | 0-100
-bool        direct              =1;         // Hướng đi: 1 - Tiến | 0 - Lùi
-bool        isRight             =1;         // Hướng quay: 1 - Phải | 0 - Trái
-uint8_t     STU                 =0;         // Trạng thái đặc biệt: 0 - Null | 1 - Đi | 2 - Rẽ (4 bánh) | 3 - Boot | 4 - Parking | 5 - UnParking | 6 - Pause | 7 - Rẽ (2 bánh).
 uint8_t     rx_temp[BUFFER_SIZE];           // Bộ đệm truyền vào (@Kn45nb)
 
 // Giả dữ liệu truyền ra (@Kn45nb)
@@ -70,7 +66,14 @@ Biến đa luồng
 
 Volatile    Type        Variable        Value       Description
 ============================================================================================================================================================================*/
-// Dữ liệu truyền ra Real-time
+// Trạng thái
+volatile    uint8_t     STU             =0;        // Trạng thái đặc biệt: 0 - Null | 1 - Đi | 2 - Rẽ (4 bánh) | 3 - Boot | 4 - Parking | 5 - UnParking | 6 - Pause | 7 - Rẽ (2 bánh).
+volatile    uint8_t     power           =50;       // Công xuất động cơ (%) | 0-100
+volatile    bool        direct          =1;        // Hướng đi: 1 - Tiến | 0 - Lùi
+volatile    bool        isRight         =1;        // Hướng quay: 1 - Phải | 0 - Trái
+
+
+// Công xuất động cơ truyền ra Real-time
 volatile    int8_t      in1_e1          =0;        // Trạng thái động cơ 1 cổng 1
 volatile    int8_t      in2_e1          =0;        // Trạng thái động cơ 1 cổng 2
 volatile    int8_t      in1_e2          =0;        // Trạng thái động cơ 2 cổng 1
@@ -88,6 +91,7 @@ Sub-Functions
 // Hàm tạo xung
 void wave(uint8_t power)
 {
+    // @Kn45nb
     in1_e1 ? out1_e1 = 1 : out1_e1 = 0;
     in2_e1 ? out2_e1 = 1 : out2_e1 = 0;
     in1_e2 ? out1_e2 = 1 : out1_e2 = 0;
@@ -102,6 +106,7 @@ void wave(uint8_t power)
     :
     (ACCURACY ? sleep_ms(power * 10 / FREQUENCIES) :    busy_wait_ms(power * 10 / FREQUENCIES));
 
+    // @Kn45nb
     out1_e1 = 0;
     out2_e1 = 0;
     out1_e2 = 0;
@@ -168,8 +173,8 @@ void sync_2_Horizontal_L()
 // Nghịch đồng bộ 2 - 2 động cơ (Xoay)
 void circular(uint8_t power, bool isRight)
 {
-    sync_2_Vertical_R(power, isRight ? 1 : 0);
-    sync_2_Vertical_L(power, isRight ? 0 : 1);
+    sync_2_Vertical_R(power, isRight);
+    sync_2_Vertical_L(power, !isRight);
 }
 
 // Đồng bộ 4
@@ -246,6 +251,7 @@ void check_Engine()
             break;
         case 1:
             sync_4(power, direct);
+            wave(power);    // @Kn45nb
             break;
         case 2:
             circular(power, isRight);
@@ -268,6 +274,8 @@ void check_Engine()
         default:
             break;
         }
+
+        // @Kn45nb
         UNIT ?
         (ACCURACY ? sleep_us((100 - power) * 10000 / FREQUENCIES) : busy_wait_us((100 - power) * 10000 / FREQUENCIES))
         :
