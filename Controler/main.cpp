@@ -334,9 +334,20 @@ int main()
 
     config_gpio();
 
-    config_COM();
+    // config_COM();
 
-    multicore_launch_core1(check_Engine);
+    // multicore_launch_core1(check_Engine);
 
-    check_COM();
+    // check_COM();
+
+    // Testing
+    while(true)
+    {
+        gpio_put(2, 1);
+        gpio_put(3, 0);
+        sleep_ms(1000);
+        gpio_put(2, 0);
+        gpio_put(3, 1);
+        sleep_ms(1000);
+    }
 }
