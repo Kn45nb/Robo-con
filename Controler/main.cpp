@@ -342,11 +342,37 @@ int main()
     // Testing
     while(true)
     {
-        gpio_put(2, 1);
-        gpio_put(3, 0);
+        gpio_put(GPIO_0, 1);
+        gpio_put(GPIO_1, 0);
+        gpio_put(GPIO_2, 1);
+        gpio_put(GPIO_3, 0);
+        gpio_put(GPIO_4, 1);
+        gpio_put(GPIO_5, 0);
+        gpio_put(GPIO_6, 1);
+        gpio_put(GPIO_7, 0);
+
         sleep_ms(1000);
-        gpio_put(2, 0);
-        gpio_put(3, 1);
+
+        gpio_put(GPIO_0, 0);
+        gpio_put(GPIO_1, 0);
+        gpio_put(GPIO_2, 0);
+        gpio_put(GPIO_3, 0);
+        gpio_put(GPIO_4, 0);
+        gpio_put(GPIO_5, 0);
+        gpio_put(GPIO_6, 0);
+        gpio_put(GPIO_7, 0);
+        
+        sleep_ms(1000);
+
+        gpio_put(GPIO_0, 0);
+        gpio_put(GPIO_1, 1);
+        gpio_put(GPIO_2, 0);
+        gpio_put(GPIO_3, 1);
+        gpio_put(GPIO_4, 0);
+        gpio_put(GPIO_5, 1);
+        gpio_put(GPIO_6, 0);
+        gpio_put(GPIO_7, 1);
+
         sleep_ms(1000);
     }
 }
