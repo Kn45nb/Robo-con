@@ -57,7 +57,7 @@ Biến cơ bản
 
 Type        Variable            Value       Description
 ============================================================================================================================================================================*/
-// Giả dữ liệu truyền vào
+// Bộ đệm dữ liệu truyền vào
 uint8_t     rx_temp[BUFFER_SIZE];           // Bộ đệm truyền vào (@Kn45nb)
 
 // Giả dữ liệu truyền ra (@Kn45nb)
@@ -103,29 +103,28 @@ Sub-Functions
 void wave(uint8_t power)
 {
     // @Kn45nb, xài: add_repeating_timer_ms() và cancel_repeating_timer()
-    in1_e1 ? out1_e1 = 1 : out1_e1 = 0;
-    in2_e1 ? out2_e1 = 1 : out2_e1 = 0;
-    in1_e2 ? out1_e2 = 1 : out1_e2 = 0;
-    in2_e2 ? out2_e2 = 1 : out2_e2 = 0;
-    in1_e3 ? out1_e3 = 1 : out1_e3 = 0;
-    in2_e3 ? out2_e3 = 1 : out2_e3 = 0;
-    in1_e4 ? out1_e4 = 1 : out1_e4 = 0;
-    in2_e4 ? out2_e4 = 1 : out2_e4 = 0;
+    gpio_put(GPIO_0, !!in1_e1);
+    gpio_put(GPIO_1, !!in2_e1);
+    gpio_put(GPIO_2, !!in1_e2);
+    gpio_put(GPIO_3, !!in2_e2);
+    gpio_put(GPIO_4, !!in1_e3);
+    gpio_put(GPIO_5, !!in2_e3);
+    gpio_put(GPIO_6, !!in1_e4);
+    gpio_put(GPIO_7, !!in2_e4);
 
     UNIT ?
     (ACCURACY ? sleep_us(power * 10000 / FREQUENCIES) : busy_wait_us(power * 10000 / FREQUENCIES))
     :
     (ACCURACY ? sleep_ms(power * 10 / FREQUENCIES) :    busy_wait_ms(power * 10 / FREQUENCIES));
 
-    // @Kn45nb
-    out1_e1 = 0;
-    out2_e1 = 0;
-    out1_e2 = 0;
-    out2_e2 = 0;
-    out1_e3 = 0;
-    out2_e3 = 0;
-    out1_e4 = 0;
-    out2_e4 = 0;
+    gpio_put(GPIO_0, 0);
+    gpio_put(GPIO_1, 0);
+    gpio_put(GPIO_2, 0);
+    gpio_put(GPIO_3, 0);
+    gpio_put(GPIO_4, 0);
+    gpio_put(GPIO_5, 0);
+    gpio_put(GPIO_6, 0);
+    gpio_put(GPIO_7, 0);
 }
 
 
@@ -334,7 +333,7 @@ int main()
 
     config_gpio();
 
-    // config_COM();
+    config_COM();
 
     // multicore_launch_core1(check_Engine);
 
