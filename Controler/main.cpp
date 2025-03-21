@@ -58,17 +58,7 @@ Biến cơ bản
 Type        Variable            Value       Description
 ============================================================================================================================================================================*/
 // Bộ đệm dữ liệu truyền vào
-uint8_t     rx_temp[BUFFER_SIZE];           // Bộ đệm truyền vào (@Kn45nb)
-
-// Giả dữ liệu truyền ra (@Kn45nb)
-bool        out1_e1         =0;         // Động cơ 1 cổng 1
-bool        out2_e1         =0;         // Động cơ 1 cổng 2
-bool        out1_e2         =0;         // Động cơ 2 cổng 1
-bool        out2_e2         =0;         // Động cơ 2 cổng 2
-bool        out1_e3         =0;         // Động cơ 3 cổng 1
-bool        out2_e3         =0;         // Động cơ 3 cổng 2
-bool        out1_e4         =0;         // Động cơ 4 cổng 1
-bool        out2_e4         =0;         // Động cơ 4 cổng 2
+uint8_t     rx_temp[BUFFER_SIZE];           // Bộ đệm truyền vào (@Kn45nb chinhr sửa kích thước theo tùy chọn pack)
 
 
 
@@ -289,26 +279,30 @@ void check_Engine()
             break;
         case 1:
             sync_4(power, direct);
-            wave(power);    // @Kn45nb
+            wave(power);
             break;
         case 2:
             circular(power, isRight);
-            wave(power);    // @Kn45nb
+            wave(power);
             break;
         case 3:
             boot();
+            // @Kn45nb hàm chưa được dev
             break;
         case 4:
             parking();
+            // @Kn45nb hàm chưa được dev
             break;
         case 5:
             unParking();
+            // @Kn45nb hàm chưa được dev
             break;
         case 6:
             pause();
+            // @Kn45nb hàm chưa được dev
             break;
         case 7:
-            // @Kn45nb
+            // @Kn45nb Dev sau hiện tại chưa cần thiết.
             break;
         default:
             break;
@@ -339,7 +333,8 @@ int main()
 
     // check_COM();
 
-    // Testing @Kn45nb
+    // @Kn45nb
+    // Testing ---------------------------
     while(true)
     {
         gpio_put(GPIO_0, 1);
