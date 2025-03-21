@@ -102,7 +102,7 @@ Sub-Functions
 // Hàm tạo xung
 void wave(uint8_t power)
 {
-    // @Kn45nb, xài: add_repeating_timer_ms() và cancel_repeating_timer()
+    // Không xài gpio_put_masked() do độ trễ cớ thể xảy ra hoặc do lười. @Kn45nb
     gpio_put(GPIO_0, !!in1_e1);
     gpio_put(GPIO_1, !!in2_e1);
     gpio_put(GPIO_2, !!in1_e2);
