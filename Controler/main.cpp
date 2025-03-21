@@ -339,7 +339,7 @@ int main()
 
     // check_COM();
 
-    // Testing
+    // Testing @Kn45nb
     while(true)
     {
         gpio_put(GPIO_0, 1);
