@@ -43,12 +43,12 @@ Define      Variable        Value       Description
 // Cổng GPIO
 #define     GPIO_0          2           // GP_2
 #define     GPIO_1          3           // GP_3
-#define     GPIO_2          4           // GP_4
-#define     GPIO_3          5           // GP_5
-#define     GPIO_4          6           // GP_6
-#define     GPIO_5          7           // GP_7
-#define     GPIO_6          8           // GP_8
-#define     GPIO_7          9           // GP_9
+#define     GPIO_2          6           // GP_6
+#define     GPIO_3          7           // GP_7
+#define     GPIO_4          8           // GP_8
+#define     GPIO_5          9           // GP_9
+#define     GPIO_6          10          // GP_10
+#define     GPIO_7          11          // GP_11
 
 
 
