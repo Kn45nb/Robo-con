@@ -371,6 +371,17 @@ int main()
         gpio_put(14, 1);
         gpio_put(15, 0);
 
+        sleep_ms(500);
+
+        gpio_put(8, 0);
+        gpio_put(9, 0);
+        gpio_put(10, 0);
+        gpio_put(11, 0);
+        gpio_put(12, 0);
+        gpio_put(13, 0);
+        gpio_put(14, 0);
+        gpio_put(15, 0);
+
         sleep_ms(2000);
 
         gpio_put(8, 0);
@@ -382,6 +393,17 @@ int main()
         gpio_put(14, 0);
         gpio_put(15, 1);
 
-        sleep_ms(2000);      
+        sleep_ms(500);  
+        
+        gpio_put(8, 0);
+        gpio_put(9, 0);
+        gpio_put(10, 0);
+        gpio_put(11, 0);
+        gpio_put(12, 0);
+        gpio_put(13, 0);
+        gpio_put(14, 0);
+        gpio_put(15, 0);
+
+        sleep_ms(2000);
     }
 }
