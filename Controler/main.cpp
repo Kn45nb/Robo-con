@@ -86,6 +86,23 @@ volatile    int8_t      in2_e4          =0;        // Trạng thái động cơ 
 /*============================================================================================================================================================================
 Sub-Functions
 ============================================================================================================================================================================*/
+// Config GPIO
+void config_gpio()
+{
+    gpio_init(GPIO_0);
+    gpio_set_dir(GPIO_0, GPIO_OUT);
+
+    gpio_init(GPIO_1);
+    gpio_set_dir(GPIO_1, GPIO_OUT);
+
+    gpio_init(GPIO_2);
+    gpio_set_dir(GPIO_2, GPIO_OUT);
+
+    gpio_init(GPIO_3);
+    gpio_set_dir(GPIO_3, GPIO_OUT);
+}
+
+
 // Hàm tạo xung
 void wave(uint8_t power)
 {
@@ -190,22 +207,6 @@ void check_COM()
     }
 }
 
-// Config and check Engine
-void config_gpio()
-{
-    gpio_init(GPIO_0);
-    gpio_set_dir(GPIO_0, GPIO_OUT);
-
-    gpio_init(GPIO_1);
-    gpio_set_dir(GPIO_1, GPIO_OUT);
-
-    gpio_init(GPIO_2);
-    gpio_set_dir(GPIO_2, GPIO_OUT);
-
-    gpio_init(GPIO_3);
-    gpio_set_dir(GPIO_3, GPIO_OUT);
-}
-
 
 void check_Engine()
 {
@@ -267,13 +268,27 @@ int main()
 
     config_gpio();
 
-    config_COM();
+    // config_COM();
 
-    multicore_launch_core1(check_Engine);
+    // multicore_launch_core1(check_Engine);
 
-    check_COM();
+    // check_COM();
 
     // @Kn45nb
     // Testing ---------------------------
+    while (true)
+    {
+        sync_4(50, 1);
+        for (uint16_t i = 0; i < 500; i++)
+        {
+            wave(50);
+        }
 
+        circular(50, 1);
+        for (uint8_t i = 0; i < 20; i++)
+        {
+            wave(50);
+        }
+    }
+    // -----------------------------------
 }
