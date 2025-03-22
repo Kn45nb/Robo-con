@@ -41,14 +41,11 @@ Define      Variable        Value       Description
 #define     FREQUENCIES     50          // Tần số giao động (Hz)
 
 // Cổng GPIO
-#define     GPIO_0          2           // GP_2
-#define     GPIO_1          3           // GP_3
-#define     GPIO_2          6           // GP_6
-#define     GPIO_3          7           // GP_7
-#define     GPIO_4          8           // GP_8
-#define     GPIO_5          9           // GP_9
-#define     GPIO_6          10          // GP_10
-#define     GPIO_7          11          // GP_11
+#define     GPIO_0          12          // GP_12
+#define     GPIO_1          13          // GP_13
+#define     GPIO_2          14          // GP_14
+#define     GPIO_3          15          // GP_15
+
 
 
 
@@ -97,10 +94,6 @@ void wave(uint8_t power)
     gpio_put(GPIO_1, !!in2_e1);
     gpio_put(GPIO_2, !!in1_e2);
     gpio_put(GPIO_3, !!in2_e2);
-    gpio_put(GPIO_4, !!in1_e3);
-    gpio_put(GPIO_5, !!in2_e3);
-    gpio_put(GPIO_6, !!in1_e4);
-    gpio_put(GPIO_7, !!in2_e4);
 
     UNIT ?
     (ACCURACY ? sleep_us(power * 10000 / FREQUENCIES) : busy_wait_us(power * 10000 / FREQUENCIES))
@@ -111,62 +104,19 @@ void wave(uint8_t power)
     gpio_put(GPIO_1, 0);
     gpio_put(GPIO_2, 0);
     gpio_put(GPIO_3, 0);
-    gpio_put(GPIO_4, 0);
-    gpio_put(GPIO_5, 0);
-    gpio_put(GPIO_6, 0);
-    gpio_put(GPIO_7, 0);
 }
 
-
-// Đơn động cơ
-// Bên phải
-void single_1_e1(uint8_t power, bool direct)
+// Động bộ dọc 2 động cơ
+void sync_2_Vertical_R(uint8_t power, bool direct)
 {
     in1_e1 = direct ? 0 : power;
     in2_e1 = direct ? power : 0;
 }
 
-void single_1_e2(uint8_t power, bool direct)
-{
-    in1_e2 = direct ? 0 : power;
-    in2_e2 = direct ? power : 0;
-}
-
-// Bên trái
-void single_1_e3(uint8_t power, bool direct)
-{
-    in1_e3 = direct ? power : 0;
-    in2_e3 = direct ? 0 : power;
-}
-
-void single_1_e4(uint8_t power, bool direct)
-{
-    in1_e4 = direct ? power : 0;
-    in2_e4 = direct ? 0 : power;
-}
-
-
-// Động bộ dọc 2 động cơ
-void sync_2_Vertical_R(uint8_t power, bool direct)
-{
-    single_1_e1(power, direct);
-    single_1_e2(power, direct);
-}
-
 void sync_2_Vertical_L(uint8_t power, bool direct)
 {
-    single_1_e3(power, direct);
-    single_1_e4(power, direct);
-}
-
-
-// Động bộ ngang 2 động cơ
-void sync_2_Horizontal_R()
-{
-}
-
-void sync_2_Horizontal_L()
-{
+    in1_e1 = direct ? power : 0;
+    in2_e1 = direct ? 0 : power;
 }
 
 
@@ -254,18 +204,6 @@ void config_gpio()
 
     gpio_init(GPIO_3);
     gpio_set_dir(GPIO_3, GPIO_OUT);
-
-    gpio_init(GPIO_4);
-    gpio_set_dir(GPIO_4, GPIO_OUT);
-
-    gpio_init(GPIO_5);
-    gpio_set_dir(GPIO_5, GPIO_OUT);
-
-    gpio_init(GPIO_6);
-    gpio_set_dir(GPIO_6, GPIO_OUT);
-
-    gpio_init(GPIO_7);
-    gpio_set_dir(GPIO_7, GPIO_OUT);
 }
 
 
@@ -280,10 +218,18 @@ void check_Engine()
         case 1:
             sync_4(power, direct);
             wave(power);
+            UNIT ?
+            (ACCURACY ? sleep_us((100 - power) * 10000 / FREQUENCIES) : busy_wait_us((100 - power) * 10000 / FREQUENCIES))
+            :
+            (ACCURACY ? sleep_ms((100 - power) * 10 / FREQUENCIES) :    busy_wait_ms((100 - power) * 10 / FREQUENCIES));
             break;
         case 2:
             circular(power, isRight);
             wave(power);
+            UNIT ?
+            (ACCURACY ? sleep_us((100 - power) * 10000 / FREQUENCIES) : busy_wait_us((100 - power) * 10000 / FREQUENCIES))
+            :
+            (ACCURACY ? sleep_ms((100 - power) * 10 / FREQUENCIES) :    busy_wait_ms((100 - power) * 10 / FREQUENCIES));
             break;
         case 3:
             boot();
@@ -307,12 +253,6 @@ void check_Engine()
         default:
             break;
         }
-
-        // @Kn45nb
-        UNIT ?
-        (ACCURACY ? sleep_us((100 - power) * 10000 / FREQUENCIES) : busy_wait_us((100 - power) * 10000 / FREQUENCIES))
-        :
-        (ACCURACY ? sleep_ms((100 - power) * 10 / FREQUENCIES) :    busy_wait_ms((100 - power) * 10 / FREQUENCIES));
     }   
 }
 
@@ -325,85 +265,15 @@ int main()
 {
     stdio_init_all();
 
-    // config_gpio();
+    config_gpio();
 
-    // config_COM();
+    config_COM();
 
-    // multicore_launch_core1(check_Engine);
+    multicore_launch_core1(check_Engine);
 
-    // check_COM();
+    check_COM();
 
     // @Kn45nb
     // Testing ---------------------------
-    
-    gpio_init(8);
-    gpio_set_dir(8, GPIO_OUT);
 
-    gpio_init(9);
-    gpio_set_dir(9, GPIO_OUT);
-
-    gpio_init(10);
-    gpio_set_dir(10, GPIO_OUT);
-
-    gpio_init(11);
-    gpio_set_dir(11, GPIO_OUT);
-
-    gpio_init(12);
-    gpio_set_dir(12, GPIO_OUT);
-
-    gpio_init(13);
-    gpio_set_dir(13, GPIO_OUT);
-
-    gpio_init(14);
-    gpio_set_dir(14, GPIO_OUT);
-
-    gpio_init(15);
-    gpio_set_dir(15, GPIO_OUT);
-    
-    while(true)
-    {
-        gpio_put(8, 1);
-        gpio_put(9, 0);
-        gpio_put(10, 1);
-        gpio_put(11, 0);
-        gpio_put(12, 1);
-        gpio_put(13, 0);
-        gpio_put(14, 1);
-        gpio_put(15, 0);
-
-        sleep_ms(500);
-
-        gpio_put(8, 0);
-        gpio_put(9, 0);
-        gpio_put(10, 0);
-        gpio_put(11, 0);
-        gpio_put(12, 0);
-        gpio_put(13, 0);
-        gpio_put(14, 0);
-        gpio_put(15, 0);
-
-        sleep_ms(2000);
-
-        gpio_put(8, 0);
-        gpio_put(9, 1);
-        gpio_put(10, 0);
-        gpio_put(11, 1);
-        gpio_put(12, 0);
-        gpio_put(13, 1);
-        gpio_put(14, 0);
-        gpio_put(15, 1);
-
-        sleep_ms(500);  
-        
-        gpio_put(8, 0);
-        gpio_put(9, 0);
-        gpio_put(10, 0);
-        gpio_put(11, 0);
-        gpio_put(12, 0);
-        gpio_put(13, 0);
-        gpio_put(14, 0);
-        gpio_put(15, 0);
-
-        sleep_ms(2000);
-    }
 }
