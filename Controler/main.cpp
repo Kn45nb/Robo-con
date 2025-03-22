@@ -325,9 +325,9 @@ int main()
 {
     stdio_init_all();
 
-    config_gpio();
+    // config_gpio();
 
-    config_COM();
+    // config_COM();
 
     // multicore_launch_core1(check_Engine);
 
@@ -335,39 +335,53 @@ int main()
 
     // @Kn45nb
     // Testing ---------------------------
+    
+    gpio_init(8);
+    gpio_set_dir(8, GPIO_OUT);
+
+    gpio_init(9);
+    gpio_set_dir(9, GPIO_OUT);
+
+    gpio_init(10);
+    gpio_set_dir(10, GPIO_OUT);
+
+    gpio_init(11);
+    gpio_set_dir(11, GPIO_OUT);
+
+    gpio_init(12);
+    gpio_set_dir(12, GPIO_OUT);
+
+    gpio_init(13);
+    gpio_set_dir(13, GPIO_OUT);
+
+    gpio_init(14);
+    gpio_set_dir(14, GPIO_OUT);
+
+    gpio_init(15);
+    gpio_set_dir(15, GPIO_OUT);
+    
     while(true)
     {
-        gpio_put(GPIO_0, 1);
-        gpio_put(GPIO_1, 0);
-        gpio_put(GPIO_2, 1);
-        gpio_put(GPIO_3, 0);
-        gpio_put(GPIO_4, 1);
-        gpio_put(GPIO_5, 0);
-        gpio_put(GPIO_6, 1);
-        gpio_put(GPIO_7, 0);
+        gpio_put(8, 1);
+        gpio_put(9, 0);
+        gpio_put(10, 1);
+        gpio_put(11, 0);
+        gpio_put(12, 1);
+        gpio_put(13, 0);
+        gpio_put(14, 1);
+        gpio_put(15, 0);
 
-        sleep_ms(1000);
+        sleep_ms(2000);
 
-        gpio_put(GPIO_0, 0);
-        gpio_put(GPIO_1, 0);
-        gpio_put(GPIO_2, 0);
-        gpio_put(GPIO_3, 0);
-        gpio_put(GPIO_4, 0);
-        gpio_put(GPIO_5, 0);
-        gpio_put(GPIO_6, 0);
-        gpio_put(GPIO_7, 0);
-        
-        sleep_ms(1000);
+        gpio_put(8, 0);
+        gpio_put(9, 1);
+        gpio_put(10, 0);
+        gpio_put(11, 1);
+        gpio_put(12, 0);
+        gpio_put(13, 1);
+        gpio_put(14, 0);
+        gpio_put(15, 1);
 
-        gpio_put(GPIO_0, 0);
-        gpio_put(GPIO_1, 1);
-        gpio_put(GPIO_2, 0);
-        gpio_put(GPIO_3, 1);
-        gpio_put(GPIO_4, 0);
-        gpio_put(GPIO_5, 1);
-        gpio_put(GPIO_6, 0);
-        gpio_put(GPIO_7, 1);
-
-        sleep_ms(1000);
+        sleep_ms(2000);      
     }
 }
