@@ -41,10 +41,10 @@ Define      Variable        Value       Description
 #define     FREQUENCIES     50          // Tần số giao động (Hz)
 
 // Cổng GPIO
-#define     GPIO_0          12          // GP_12
-#define     GPIO_1          13          // GP_13
-#define     GPIO_2          14          // GP_14
-#define     GPIO_3          15          // GP_15
+#define     GPIO_0          10          // GP_12
+#define     GPIO_1          11          // GP_13
+#define     GPIO_2          12          // GP_14
+#define     GPIO_3          13          // GP_15
 
 
 
@@ -76,10 +76,6 @@ volatile    int8_t      in1_e1          =0;        // Trạng thái động cơ 
 volatile    int8_t      in2_e1          =0;        // Trạng thái động cơ 1 cổng 2
 volatile    int8_t      in1_e2          =0;        // Trạng thái động cơ 2 cổng 1
 volatile    int8_t      in2_e2          =0;        // Trạng thái động cơ 2 cổng 2
-volatile    int8_t      in1_e3          =0;        // Trạng thái động cơ 3 cổng 1
-volatile    int8_t      in2_e3          =0;        // Trạng thái động cơ 3 cổng 2
-volatile    int8_t      in1_e4          =0;        // Trạng thái động cơ 4 cổng 1
-volatile    int8_t      in2_e4          =0;        // Trạng thái động cơ 4 cổng 2
 
 
 
@@ -132,8 +128,8 @@ void sync_2_Vertical_R(uint8_t power, bool direct)
 
 void sync_2_Vertical_L(uint8_t power, bool direct)
 {
-    in1_e1 = direct ? power : 0;
-    in2_e1 = direct ? 0 : power;
+    in1_e2 = direct ? power : 0;
+    in2_e2 = direct ? 0 : power;
 }
 
 
@@ -279,8 +275,12 @@ int main()
     while (true)
     {
         STU = 1;
+        power = 50;
+        direct = 1;
         sleep_ms(1000);
         STU = 2;
+        power = 25;
+        isRight = 1;
         sleep_ms(1000);
 
     }
