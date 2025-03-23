@@ -270,25 +270,19 @@ int main()
 
     // config_COM();
 
-    // multicore_launch_core1(check_Engine);
-
     // check_COM();
 
+    multicore_launch_core1(check_Engine);
+
     // @Kn45nb
-    // Testing ---------------------------
+    // Testing (Giả dữ liệu COM)
     while (true)
     {
-        sync_4(50, 1);
-        for (uint16_t i = 0; i < 500; i++)
-        {
-            wave(50);
-        }
+        STU = 1;
+        sleep_ms(1000);
+        STU = 2;
+        sleep_ms(1000);
 
-        circular(50, 1);
-        for (uint8_t i = 0; i < 20; i++)
-        {
-            wave(50);
-        }
     }
     // -----------------------------------
 }
