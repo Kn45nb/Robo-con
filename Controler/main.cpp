@@ -272,17 +272,21 @@ int main()
 
     // @Kn45nb
     // Testing (Giả dữ liệu COM)
-    while (true)
-    {
-        STU = 1;
-        power = 50;
-        direct = 1;
-        sleep_ms(1000);
-        STU = 2;
-        power = 25;
-        isRight = 1;
-        sleep_ms(1000);
-
-    }
+    STU = 1;
+    power = 50;
+    direct = 1;
+    sleep_ms(1000);
+    STU = 1;
+    power = 50;
+    direct = 0;
+    sleep_ms(1000);
+    STU = 2;
+    power = 50;
+    isRight = 1;
+    sleep_ms(1000);
+    STU = 2;
+    power = 15;
+    isRight = 0;
+    sleep_ms(1000);
     // -----------------------------------
 }
