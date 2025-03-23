@@ -33,7 +33,7 @@ Define      Variable        Value       Description
 #define     TX_PIN          0           // GP_0 (TX)
 #define     RX_PIN          1           // GP_1 (RX)
 #define     BAUD_RATE       115200      // Tốc độ Baud (tùy chỉnh theo module)
-#define     BUFFER_SIZE     8           // Kích thước bộ đệm (tùy chỉnh theo ứng dụng)
+#define     BUFFER_SIZE     8           // Kích thước bộ đệm (tùy chỉnh theo pack @Kn45nb (1))
 
 // Độ chính xác luồng Engine
 #define     UNIT            0           // 0 - ms | 1 - us
@@ -55,7 +55,7 @@ Biến cơ bản
 Type        Variable            Value       Description
 ============================================================================================================================================================================*/
 // Bộ đệm dữ liệu truyền vào
-uint8_t     rx_temp[BUFFER_SIZE];           // Bộ đệm truyền vào (@Kn45nb chinhr sửa kích thước theo tùy chọn pack)
+uint8_t     rx_temp[BUFFER_SIZE];           // Bộ đệm truyền vào (@Kn45nb (1) chinhr sửa kích thước theo tùy chọn pack)
 
 
 
@@ -149,24 +149,33 @@ void sync_4(uint8_t power, bool direct)
 
 
 // Giao thức đặc biệt không qua các hàm xung
-void boot()
+void boot(bool direct)
 {
-
+    gpio_put(GPIO_0, direct ? 0 : 1);
+    gpio_put(GPIO_1, direct ? 1 : 0);
+    gpio_put(GPIO_2, direct ? 1 : 0);
+    gpio_put(GPIO_3, direct ? 0 : 1);
 }
 
 void parking()
 {
-
+    gpio_put(GPIO_0, 1);
+    gpio_put(GPIO_1, 1);
+    gpio_put(GPIO_2, 1);
+    gpio_put(GPIO_3, 1);
 }
 
 void unParking()
 {
-
+    gpio_put(GPIO_0, 0);
+    gpio_put(GPIO_1, 0);
+    gpio_put(GPIO_2, 0);
+    gpio_put(GPIO_3, 0);
 }
 
 void pause()
 {
-
+    // @Kn45nb Hàm này cần đo đạc thực tế nhiều. <Code_2>
 }
 
 
@@ -229,16 +238,13 @@ void check_Engine()
             (ACCURACY ? sleep_ms((100 - power) * 10 / FREQUENCIES) :    busy_wait_ms((100 - power) * 10 / FREQUENCIES));
             break;
         case 3:
-            boot();
-            // @Kn45nb hàm chưa được dev
+            boot(direct);
             break;
         case 4:
             parking();
-            // @Kn45nb hàm chưa được dev
             break;
         case 5:
             unParking();
-            // @Kn45nb hàm chưa được dev
             break;
         case 6:
             pause();
@@ -270,23 +276,27 @@ int main()
 
     multicore_launch_core1(check_Engine);
 
-    // @Kn45nb
-    // Testing (Giả dữ liệu COM)
+    // @Kn45nb Testing (Giả dữ liệu COM)
     STU = 1;
-    power = 50;
+    power = 75;
     direct = 1;
+
     sleep_ms(1000);
     STU = 1;
-    power = 50;
+    power = 75;
     direct = 0;
+
     sleep_ms(1000);
     STU = 2;
     power = 50;
     isRight = 1;
+
     sleep_ms(1000);
     STU = 2;
     power = 15;
     isRight = 0;
+
     sleep_ms(1000);
+    STU = 0;
     // -----------------------------------
 }
