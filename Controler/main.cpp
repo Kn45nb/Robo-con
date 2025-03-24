@@ -278,29 +278,26 @@ int main()
 
 
 
-    // // @Kn45nb Testing (Giả dữ liệu COM)
-    // while (true)
-    // {
-    //     STU = 0;
-    //     sleep_ms(5000);
+    // @Kn45nb Testing (Giả dữ liệu COM)
+    while (true)
+    {
+        STU = 0;
+        sleep_ms(5000);
 
-    //     STU = 1;
-    //     power = 100;
-    //     direct = 1;
-    
-    //     sleep_ms(1000);
-    //     power = 50;
-    
-    //     sleep_ms(1000);
-    //     power = 80;
-    
-    //     STU = 2;
-    //     power = 100;
-    //     isRight = 0;
-    
-    //     sleep_ms(2000);
-    //     STU = 0;
+        STU = 1;
+        power = 100;
+        direct = 1;
+        sleep_ms(1000);
 
-    //     sleep_ms(5000);
-    // }
+        STU = 0;
+        sleep_ms(1000);
+
+        STU = 1;
+        power = 100;
+        direct = 1;
+        sleep_ms(2000);
+    
+        STU = 0;
+        sleep_ms(5000);
+    }
 }
