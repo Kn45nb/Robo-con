@@ -277,24 +277,28 @@ int main()
     multicore_launch_core1(check_Engine);
 
     // @Kn45nb Testing (Giả dữ liệu COM)
-    STU = 1;
-    power = 75;
-    direct = 1;
+    while (true)
+    {
+        STU = 0;
+        sleep_ms(5000);
 
-    sleep_ms(1000);
-    STU = 1;
-    power = 75;
-    direct = 0;
+        STU = 1;
+        power = 100;
+        direct = 1;
+    
+        sleep_ms(1000);
+        power = 50;
+    
+        sleep_ms(1000);
+        power = 80;
+    
+        STU = 2;
+        power = 100;
+        isRight = 0;
+    
+        sleep_ms(2000);
+        STU = 0;
 
-    sleep_ms(1000);
-    STU = 2;
-    power = 50;
-    isRight = 1;
-
-    STU = 2;
-    power = 15;
-    isRight = 0;
-
-    sleep_ms(1000);
-    STU = 0;
+        sleep_ms(5000);
+    }
 }
