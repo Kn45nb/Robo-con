@@ -272,7 +272,7 @@ int main()
 
     // config_COM();
 
-    // multicore_launch_core1(check_Engine);
+    multicore_launch_core1(check_Engine);
 
     // check_COM();
 
