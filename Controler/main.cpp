@@ -83,7 +83,7 @@ volatile    int8_t      in2_e2          =0;        // Trạng thái động cơ 
 Sub-Functions
 ============================================================================================================================================================================*/
 // Config GPIO
-void config_gpio()
+void config_Engine()
 {
     gpio_init(GPIO_0);
     gpio_set_dir(GPIO_0, GPIO_OUT);
@@ -268,37 +268,39 @@ int main()
 {
     stdio_init_all();
 
-    config_gpio();
+    config_Engine();
 
-    // config_COM();
-
-    // check_COM();
+    config_COM();
 
     multicore_launch_core1(check_Engine);
 
-    // @Kn45nb Testing (Giả dữ liệu COM)
-    while (true)
-    {
-        STU = 0;
-        sleep_ms(5000);
+    check_COM();
 
-        STU = 1;
-        power = 100;
-        direct = 1;
-    
-        sleep_ms(1000);
-        power = 50;
-    
-        sleep_ms(1000);
-        power = 80;
-    
-        STU = 2;
-        power = 100;
-        isRight = 0;
-    
-        sleep_ms(2000);
-        STU = 0;
 
-        sleep_ms(5000);
-    }
+
+    // // @Kn45nb Testing (Giả dữ liệu COM)
+    // while (true)
+    // {
+    //     STU = 0;
+    //     sleep_ms(5000);
+
+    //     STU = 1;
+    //     power = 100;
+    //     direct = 1;
+    
+    //     sleep_ms(1000);
+    //     power = 50;
+    
+    //     sleep_ms(1000);
+    //     power = 80;
+    
+    //     STU = 2;
+    //     power = 100;
+    //     isRight = 0;
+    
+    //     sleep_ms(2000);
+    //     STU = 0;
+
+    //     sleep_ms(5000);
+    // }
 }
