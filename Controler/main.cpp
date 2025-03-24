@@ -270,11 +270,11 @@ int main()
 
     config_Engine();
 
-    config_COM();
+    // config_COM();
 
-    multicore_launch_core1(check_Engine);
+    // multicore_launch_core1(check_Engine);
 
-    check_COM();
+    // check_COM();
 
 
 
