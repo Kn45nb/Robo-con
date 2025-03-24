@@ -291,7 +291,6 @@ int main()
     power = 50;
     isRight = 1;
 
-    sleep_ms(1000);
     STU = 2;
     power = 15;
     isRight = 0;
